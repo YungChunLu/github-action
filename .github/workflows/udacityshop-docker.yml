@@ -13,6 +13,6 @@ jobs:
         name: Build adservice
         uses: docker/build-push-action@v2
         with:
-          context: src/adservice
+          context: ./src/adservice
           push: true
           tags: adservice:latest
