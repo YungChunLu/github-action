@@ -14,5 +14,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./src/adservice
+          file: ./src/adservice/Dockerfile
           push: true
           tags: adservice:latest
