@@ -29,3 +29,27 @@ jobs:
           file: ./src/adservice/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/adservice:latest
+
+      - name: Build frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./src/frontend
+          file: ./src/frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+      
+      - name: Build productcatalogservice
+        uses: docker/build-push-action@v2
+        with:
+          context: ./src/productcatalogservice
+          file: ./src/productcatalogservice/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice:latest
+
+      - name: Build currencyservice
+        uses: docker/build-push-action@v2
+        with:
+          context: ./src/currencyservice
+          file: ./src/currencyservice/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice:latest
