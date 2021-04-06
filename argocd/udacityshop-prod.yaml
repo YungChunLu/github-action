@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: udacityshop-prod
+spec:
+  destination:
+    namespace: prod
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: kubernetes-manifests/prod
+    repoURL: 'https://github.com/YungChunLu/github-action'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
