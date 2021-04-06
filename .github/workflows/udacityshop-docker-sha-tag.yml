@@ -1,4 +1,4 @@
-name: Uda'CityShop [latest tag] - Package with Docker
+name: Uda'CityShop [sha tag] - Package with Docker
 
 on:
   push:
@@ -12,6 +12,21 @@ jobs:
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v2
+
+      - name: Docker meta
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
+            ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
+            ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
+          tags: |
+            type=sha
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -29,7 +44,7 @@ jobs:
           context: ./src/adservice
           file: ./src/adservice/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/adservice:latest
+          tags: ${{ steps.meta.outputs.tags }}
 
       - name: Build frontend
         uses: docker/build-push-action@v2
@@ -37,7 +52,7 @@ jobs:
           context: ./src/frontend
           file: ./src/frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+          tags: ${{ steps.meta.outputs.tags }}
       
       - name: Build productcatalogservice
         uses: docker/build-push-action@v2
@@ -45,7 +60,7 @@ jobs:
           context: ./src/productcatalogservice
           file: ./src/productcatalogservice/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice:latest
+          tags: ${{ steps.meta.outputs.tags }}
 
       - name: Build currencyservice
         uses: docker/build-push-action@v2
@@ -53,4 +68,4 @@ jobs:
           context: ./src/currencyservice
           file: ./src/currencyservice/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice:latest
+          tags: ${{ steps.meta.outputs.tags }}
