@@ -22,8 +22,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
             ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
             ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
-          tags: |
-            type=sha
+          tag-sha: true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
