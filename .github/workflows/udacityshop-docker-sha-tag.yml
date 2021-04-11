@@ -17,11 +17,11 @@ jobs:
         id: meta
         uses: crazy-max/ghaction-docker-meta@v2
         with:
-          images: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
-            ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
-            ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
+          # images: |
+          #   ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
+          #   ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
+          #   ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
+          #   ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
           tags: |
             type=sha
       -

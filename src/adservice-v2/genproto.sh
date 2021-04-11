@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
-set -e
+#!/bin/bash -e
 
-# TODO: Add the commands to generate the gRPC files
+PATH=$PATH:$GOPATH/bin
+protodir=../../pb
+
+python3 -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I $protodir $protodir/demo.proto
