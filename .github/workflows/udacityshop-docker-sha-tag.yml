@@ -32,7 +32,8 @@ jobs:
         with:
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
-          tag-sha: true
+          tags: |
+            type=sha
 
       - name: Build adservice
         uses: docker/build-push-action@v2
@@ -48,7 +49,8 @@ jobs:
         with:
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
-          tag-sha: true
+          tags: |
+            type=sha
 
       - name: Build frontend
         uses: docker/build-push-action@v2
@@ -64,7 +66,8 @@ jobs:
         with:
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
-          tag-sha: true
+          tags: |
+            type=sha
 
       - name: Build productcatalogservice
         uses: docker/build-push-action@v2
@@ -80,7 +83,8 @@ jobs:
         with:
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
-          tag-sha: true
+          tags: |
+            type=sha
 
       - name: Build currencyservice
         uses: docker/build-push-action@v2
