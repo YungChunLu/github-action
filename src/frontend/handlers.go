@@ -21,6 +21,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+
 	// "strconv"
 	"strings"
 	// "time"
@@ -29,7 +30,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	pb "github.com/GoogleCloudPlatform/microservices-demo/src/frontend/genproto"
+	pb "github.com/YungChunLu/github-action/src/frontend/genproto"
 	// "github.com/GoogleCloudPlatform/microservices-demo/src/frontend/money"
 )
 
@@ -156,15 +157,15 @@ func (fe *frontendServer) productHandler(w http.ResponseWriter, r *http.Request)
 	}{p, price}
 
 	if err := templates.ExecuteTemplate(w, "product", map[string]interface{}{
-		"session_id":      sessionID(r),
-		"request_id":      r.Context().Value(ctxKeyRequestID{}),
-		"ad":              fe.chooseAd(r.Context(), p.Categories, log),
-		"user_currency":   currentCurrency(r),
-		"show_currency":   true,
-		"currencies":      currencies,
-		"product":         product,
-		"platform_css":    plat.css,
-		"platform_name":   plat.provider,
+		"session_id":    sessionID(r),
+		"request_id":    r.Context().Value(ctxKeyRequestID{}),
+		"ad":            fe.chooseAd(r.Context(), p.Categories, log),
+		"user_currency": currentCurrency(r),
+		"show_currency": true,
+		"currencies":    currencies,
+		"product":       product,
+		"platform_css":  plat.css,
+		"platform_name": plat.provider,
 	}); err != nil {
 		log.Println(err)
 	}
@@ -233,7 +234,6 @@ func sessionID(r *http.Request) string {
 	}
 	return ""
 }
-
 
 func renderMoney(money pb.Money) string {
 	return fmt.Sprintf("%s %d.%02d", money.GetCurrencyCode(), money.GetUnits(), money.GetNanos()/10000000)

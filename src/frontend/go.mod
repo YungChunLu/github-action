@@ -1,4 +1,4 @@
-module github.com/GoogleCloudPlatform/microservices-demo/src/frontend
+module github.com/YungChunLu/github-action/src/frontend/genproto
 
 go 1.15
 
