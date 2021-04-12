@@ -1,4 +1,4 @@
-module github.com/YungChunLu/github-action/src/frontend/genproto
+module github.com/YungChunLu/github-action/src/frontend
 
 go 1.15
 
