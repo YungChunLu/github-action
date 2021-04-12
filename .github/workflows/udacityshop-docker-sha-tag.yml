@@ -13,18 +13,7 @@ jobs:
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
-      - name: Docker meta
-        id: meta
-        uses: crazy-max/ghaction-docker-meta@v2
-        with:
-          images: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
-            ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
-            ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
-            ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
-          tag-sha: true
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
       - name: Login to Docker Hub
@@ -37,13 +26,29 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Docker adservice_meta
+        id: adservice_meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/adservice
+          tag-sha: true
+
       - name: Build adservice
         uses: docker/build-push-action@v2
         with:
           context: ./src/adservice
           file: ./src/adservice/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.adservice_meta.outputs.tags }}
+
+      - name: Docker frontend_meta
+        id: frontend_meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/frontend
+          tag-sha: true
 
       - name: Build frontend
         uses: docker/build-push-action@v2
@@ -51,15 +56,31 @@ jobs:
           context: ./src/frontend
           file: ./src/frontend/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.frontend_meta.outputs.tags }}
       
+      - name: Docker productcatalogservice_meta
+        id: productcatalogservice_meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/productcatalogservice
+          tag-sha: true
+
       - name: Build productcatalogservice
         uses: docker/build-push-action@v2
         with:
           context: ./src/productcatalogservice
           file: ./src/productcatalogservice/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.productcatalogservice_meta.outputs.tags }}
+
+      - name: Docker currencyservice_meta
+        id: currencyservice_meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/currencyservice
+          tag-sha: true
 
       - name: Build currencyservice
         uses: docker/build-push-action@v2
@@ -67,4 +88,4 @@ jobs:
           context: ./src/currencyservice
           file: ./src/currencyservice/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.currencyservice_meta.outputs.tags }}
