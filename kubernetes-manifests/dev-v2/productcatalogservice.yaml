@@ -1,34 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: currencyservice
-  namespace: prod
+  name: productcatalogservice
+  namespace: dev-v2
 spec:
   selector:
     matchLabels:
-      app: currencyservice
+      app: productcatalogservice
   template:
     metadata:
       labels:
-        app: currencyservice
+        app: productcatalogservice
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: 780513/currencyservice:sha-38bb411
+        image: 780513/productcatalogservice:sha-38bb411
         ports:
-        - name: grpc
-          containerPort: 7000
+        - containerPort: 3550
         env:
         - name: PORT
-          value: "7000"
+          value: "3550"
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7000"]
+            command: ["/bin/grpc_health_probe", "-addr=:3550"]
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7000"]
+            command: ["/bin/grpc_health_probe", "-addr=:3550"]
         resources:
           requests:
             cpu: 100m
@@ -40,13 +39,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: currencyservice
-  namespace: prod
+  name: productcatalogservice
+  namespace: dev-v2
 spec:
   type: ClusterIP
   selector:
-    app: currencyservice
+    app: productcatalogservice
   ports:
   - name: grpc
-    port: 7000
-    targetPort: 7000
+    port: 3550
+    targetPort: 3550
