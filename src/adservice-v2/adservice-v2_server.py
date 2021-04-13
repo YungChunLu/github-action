@@ -18,8 +18,14 @@ logger = getJSONLogger('adservice-v2-server')
 
 
 class AdServiceV2(demo_pb2_grpc.AdServiceV2Servicer, health_pb2_grpc.HealthServicer):
+    def __init__(self):
+        self.channel = grpc.insecure_channel(os.environ["PRODUCT_CATALOG_SERVICE_ADDR"])
+        self.stub = demo_pb2_grpc.ProductCatalogServiceStub(self.channel)
+
     def GetAds(self, request, context):
-        ads = [demo_pb2.Ad(redirect_url="test", text="AdV2 - Items with 25% discount!")]
+        request = demo_pb2.Empty()
+        products = self.stub.ListProducts(request).products
+        ads = [demo_pb2.Ad(redirect_url=random.choice(products).id, text="AdV2 - Items with 25% discount!")]
         return demo_pb2.AdResponse(ads=ads)
 
     # Uncomment to enable the HealthChecks for the Ad service
@@ -36,7 +42,6 @@ class AdServiceV2(demo_pb2_grpc.AdServiceV2Servicer, health_pb2_grpc.HealthServi
 if __name__ == "__main__":
     logger.info("initializing adservice-v2")
 
-    # TODO:
     # create gRPC server, add the Ad-v2 service and start it
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
     service = AdServiceV2()

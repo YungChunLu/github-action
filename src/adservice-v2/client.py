@@ -15,11 +15,11 @@ if __name__ == "__main__":
     # set up server stub
     # ensure the service is listening to port 9556
     channel = grpc.insecure_channel('localhost:9556')
-    # stub = demo_pb2_grpc.AdServiceV2Stub(channel)
+    stub = demo_pb2_grpc.AdServiceV2Stub(channel)
     # stub = health_pb2_grpc.HealthStub(channel)
     # stub = demo_pb2_grpc.ProductCatalogServiceStub(channel)
     
-    request = demo_pb2.AdRequest(context_keys=["1", "2"])
+    request = demo_pb2.AdRequest(context_keys=["1"])
     # request = health_pb2.HealthCheckRequest()
     # request = demo_pb2.Empty()
     
